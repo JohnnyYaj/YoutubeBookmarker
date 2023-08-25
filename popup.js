@@ -4,15 +4,22 @@ import { getActiveTabURL } from "./utils.js"
 const addNewBookmark = (bookmarksElement, bookmark) => {
     const bookmarkTitleElement = document.createElement("div");
     const newBookmarkElement = document.createElement("div");
+    const controlElement = document.createElement("div")
+
 
     bookmarkTitleElement.textContent = bookmark.desc;
     bookmarkTitleElement.className = "bookmark-title";
+
+    controlElement.className = "bookmark-controls"
 
     newBookmarkElement.id = "bookmark-" + bookmark.time;
     newBookmarkElement.className = "bookmark";
     newBookmarkElement.setAttribute("timestamp", bookmark.time);
 
+    setBookmarkAttributes("play", onPlay, controlElement)
+
     newBookmarkElement.appendChild(bookmarkTitleElement);
+    newBookmarkElement.appendChild(controlElement)
     bookmarksElement.appendChild(newBookmarkElement);
 };
 
@@ -34,7 +41,15 @@ const onPlay = e => {};
 
 const onDelete = e => {};
 
-const setBookmarkAttributes =  () => {};
+const setBookmarkAttributes =  (src, EventListener, controlParentElement) => {
+  const controlElement = document.createElement("img");
+
+  controlElement.src = "assets/"+ src + ".png";
+  controlElement.title = src;
+  controlElement.addEventListener("click", EventListener);
+  controlParentElement.appendChild(controlElement);
+
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
     const activeTab = await getActiveTabURL();
